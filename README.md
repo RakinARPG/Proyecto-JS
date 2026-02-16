@@ -41,6 +41,11 @@ La aplicación permite al usuario interactuar mediante un menú utilizando `prom
 
 ##  Capturas
 
+### Screenshot 1
+![Screenshot 1](screenshots/SS1.png)
+
+### Screenshot 2
+![Screenshot 2](screenshots/SS2.png)
 
 ## 📚 Autor
 
