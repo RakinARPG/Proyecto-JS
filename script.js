@@ -1,109 +1,211 @@
-// --- 1. Una calculadora común y corriente ---
+console.log("Aplicación iniciada correctamente");
+
+// ===============================
+// CALCULADORA
+// ===============================
 function hacerCuentas(queHacer, n1, n2) {
+    console.log("Entrando a hacerCuentas()");
+    console.log("Operación elegida:", queHacer);
+    console.log("Valores recibidos:", n1, n2);
+
     if (isNaN(n1) || isNaN(n2)) {
-        return "Ingresaste algo que no es un número";
+        console.log("Error: uno de los valores no es número");
+        return "Error: ingresaste valores inválidos";
     }
 
     switch (queHacer) {
-        case "1": return n1 + n2;
-        case "2": return n1 - n2;
-        case "3": return n1 * n2;
+        case "1":
+            console.log("Realizando suma");
+            return n1 + n2;
+
+        case "2":
+            console.log("Realizando resta");
+            return n1 - n2;
+
+        case "3":
+            console.log("Realizando multiplicación");
+            return n1 * n2;
+
         case "4":
-            if (n2 === 0) return "¡No podés dividir por cero!";
+            console.log("Realizando división");
+            if (n2 === 0) {
+                console.log("Error: división por cero");
+                return "No podés dividir por cero";
+            }
             return n1 / n2;
+
         default:
-            return "Opción inválida... probá de nuevo";
+            console.log("Operación inválida");
+            return "Opción inválida";
     }
 }
 
-// --- 2. Función para promedios de la facultad ---
+
+// ===============================
+// PROMEDIO
+// ===============================
 function sacarPromedio(listaDeNotas) {
-    if (listaDeNotas.length === 0) {
-        return "No ingresaste notas";
+    console.log("Entrando a sacarPromedio()");
+    console.log("Lista recibida:", listaDeNotas);
+
+    if (!Array.isArray(listaDeNotas) || listaDeNotas.length === 0) {
+        console.log("Error: lista vacía o inválida");
+        return "No ingresaste notas válidas";
     }
 
     let total = 0;
+
     for (let i = 0; i < listaDeNotas.length; i++) {
         if (isNaN(listaDeNotas[i])) {
-            return "Alguna de las notas no es válida";
+            console.log("Error: nota inválida detectada en posición", i);
+            return "Alguna nota no es un número válido";
         }
         total += listaDeNotas[i];
     }
 
-    return total / listaDeNotas.length;
+    let promedio = total / listaDeNotas.length;
+    console.log("Promedio calculado:", promedio);
+
+    return promedio;
 }
 
-// --- 3. Mi objeto de usuario ---
+
+// ===============================
+// PERFIL
+// ===============================
 function armarPerfil(nom, edad, laburo) {
+    console.log("Entrando a armarPerfil()");
+    console.log("Datos recibidos:", nom, edad, laburo);
+
     if (!nom || !edad || !laburo) {
-        return "Faltan datos para armar el perfil";
+        console.log("Error: faltan datos");
+        return "Faltan datos para crear el perfil";
+    }
+
+    if (isNaN(edad)) {
+        console.log("Error: edad no válida");
+        return "La edad debe ser un número";
     }
 
     const persona = {
         nombre: nom,
         edad: edad,
         trabajo: laburo,
-        decirHola: function() {
-            return `Hola, soy ${this.nombre}, tengo ${this.edad} años y laburo de ${this.trabajo}`;
+        decirHola: function () {
+            console.log("Ejecutando método decirHola()");
+            return `Hola, soy ${this.nombre}, tengo ${this.edad} años y trabajo de ${this.trabajo}`;
         }
     };
 
     return persona.decirHola();
 }
 
-// --- 4. Filtro para números grandes ---
+
+// ===============================
+// 4️FILTRO
+// ===============================
 function limpiarLista(numeros) {
-    const numerosValidos = numeros.filter(n => !isNaN(n));
-    return numerosValidos.filter(n => n > 10);
+    console.log("Entrando a limpiarLista()");
+    console.log("Lista original:", numeros);
+
+    if (!Array.isArray(numeros) || numeros.length === 0) {
+        console.log("Error: lista inválida");
+        return "Lista inválida";
+    }
+
+    let numerosValidos = numeros.filter(n => !isNaN(n));
+
+    if (numerosValidos.length === 0) {
+        console.log("Error: ningún número válido");
+        return "No hay números válidos en la lista";
+    }
+
+    let filtrados = numerosValidos.filter(n => n > 10);
+    console.log("Números mayores a 10:", filtrados);
+
+    return filtrados;
 }
 
-// --- ACÁ ARRANCA EL MENÚ ---
+
+// ===============================
+// MENÚ PRINCIPAL
+// ===============================
 let seguir = true;
 
 while (seguir) {
-    let eleccion = prompt("¿Qué querés hacer?\n1. Cuentas\n2. Promedio\n3. Perfil\n4. Filtro\n5. Salir");
+    console.log("Mostrando menú principal");
+
+    let eleccion = prompt(
+        "¿Qué querés hacer?\n1. Cuentas\n2. Promedio\n3. Perfil\n4. Filtro\n5. Salir"
+    );
+
+    if (eleccion === null) {
+        console.log("Usuario canceló el menú");
+        alert("Aplicación finalizada");
+        break;
+    }
 
     if (eleccion === "1") {
+
         let modo = prompt("1.Suma, 2.Resta, 3.Multi, 4.Div");
         let numA = parseFloat(prompt("Primer número:"));
         let numB = parseFloat(prompt("Segundo número:"));
 
-        alert("Resultado: " + hacerCuentas(modo, numA, numB));
+        let resultado = hacerCuentas(modo, numA, numB);
+        alert("Resultado: " + resultado);
 
     } else if (eleccion === "2") {
+
         let notasTxt = prompt("Pasame las notas separadas por coma (ej: 7,8,9)");
 
         if (!notasTxt) {
-            alert("No ingresaste nada");
+            alert("No ingresaste datos");
             continue;
         }
 
-        let misNotas = notasTxt.split(",").map(n => parseFloat(n.trim()));
-        alert("Tu promedio es: " + sacarPromedio(misNotas));
+        let misNotas = notasTxt
+            .split(",")
+            .map(n => parseFloat(n.trim()));
+
+        let resultado = sacarPromedio(misNotas);
+        alert("Tu promedio es: " + resultado);
 
     } else if (eleccion === "3") {
+
         let n = prompt("Nombre:");
         let e = prompt("Edad:");
-        let l = prompt("Laburo:");
+        let l = prompt("Trabajo:");
 
-        alert(armarPerfil(n, e, l));
+        let resultado = armarPerfil(n, parseFloat(e), l);
+        alert(resultado);
 
     } else if (eleccion === "4") {
+
         let listaTxt = prompt("Tirame números separados por coma:");
 
         if (!listaTxt) {
-            alert("No ingresaste nada");
+            alert("No ingresaste datos");
             continue;
         }
 
-        let listaNum = listaTxt.split(",").map(n => parseFloat(n.trim()));
-        alert("Los que son mayores a 10 son: " + limpiarLista(listaNum));
+        let listaNum = listaTxt
+            .split(",")
+            .map(n => parseFloat(n.trim()));
+
+        let resultado = limpiarLista(listaNum);
+        alert("Mayores a 10: " + resultado);
 
     } else if (eleccion === "5") {
+
+        console.log("Usuario decidió salir");
         alert("¡Chau! Me fui.");
         seguir = false;
 
     } else {
-        alert("Esa opción no va...");
+
+        console.log("Opción inválida ingresada");
+        alert("Esa opción no es válida");
     }
 }
+
+console.log("Aplicación finalizada");
